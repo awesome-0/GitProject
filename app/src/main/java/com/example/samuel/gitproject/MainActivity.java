@@ -49,8 +49,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void restartLoader() {
-        getSupportLoaderManager().restartLoader(LOADER_ID,null,MainActivity.this);
+
         errorText.setVisibility(View.INVISIBLE);
+        if(isConnected()) {
+            getSupportLoaderManager().restartLoader(LOADER_ID, null, MainActivity.this);
+        }
+        else{
+            refresh.setRefreshing(false);
+            noInternetConnection();
+        }
     }
 
 
