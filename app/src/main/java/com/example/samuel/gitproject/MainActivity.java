@@ -51,12 +51,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private void restartLoader() {
 
         errorText.setVisibility(View.INVISIBLE);
-        if(isConnected()) {
-            getSupportLoaderManager().restartLoader(LOADER_ID, null, MainActivity.this);
+        if(users.isEmpty()) {
+            if (isConnected()) {
+                getSupportLoaderManager().restartLoader(LOADER_ID, null, MainActivity.this);
+            } else {
+                refresh.setRefreshing(false);
+                noInternetConnection();
+            }
         }
         else{
-            refresh.setRefreshing(false);
-            noInternetConnection();
+
+                refresh.setRefreshing(false);
+
         }
     }
 
@@ -93,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void noInternetConnection() {
-        bar.setVisibility(View.GONE);
+        bar.setVisibility(View.INVISIBLE);
         errorText.setText(R.string.no_internet);
         errorText.setVisibility(View.VISIBLE);
 
@@ -111,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void showError() {
-        bar.setVisibility(View.GONE);
+        bar.setVisibility(View.INVISIBLE);
         errorText.setText(R.string.broken_connection);
         errorText.setVisibility(View.VISIBLE);
 
